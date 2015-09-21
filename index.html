@@ -1,0 +1,123 @@
+
+<html>
+
+	<style>
+	    .myText{
+	    	color: red;
+	    }
+
+	    .red{
+	    	color:red;
+	    	font-weight: lighter !important;
+	    }
+
+	    .green{
+	    	color:green;
+	    }
+	    .border{
+	    	border-style: solid;
+    		border-width: 5px;
+	    }
+	</style>
+	<div>
+		<h1 class="myText" id="first">
+			First World
+		</h1>
+	</div>
+
+	<div>
+		<h1 class="myText red" id="second">
+			Second World
+		</h1>
+	</div>
+	<div>
+		<h1 class="myText" id="third">
+			Third World
+		</h1>
+	</div>
+	<div>
+		<h1 class="myText" id="fourth">
+			Fourth World
+		</h1>
+	</div>
+
+	<div class="border">
+		<h1>I am empty</h1>
+	</div>
+
+	<button type="button" onclick="doSomething('asd')">BUTTON!</button>
+
+
+
+
+</html>
+
+
+<script type="text/javascript">
+
+	doNetwork =  function(url){
+		var request = new XMLHttpRequest();
+		request.open('GET', url, true);
+
+		request.onload = function() {
+		  if (request.status >= 200 && request.status < 400) {
+		    // Success!
+		    var resp = request.responseText;
+		    console.log(resp);
+		    var jsonResponse = JSON.parse(request.responseText);
+		    document.getElementsByClassName('myText')[0].innerHTML=jsonResponse["names"][0];
+		  } else {
+		    // We reached our target server, but it returned an error
+		    alert("OH NO!");
+
+		  }
+		};
+
+		request.onerror = function() {
+		  // There was a connection error of some sort
+		};
+
+request.send();
+	}
+
+	doSomething = function(info){
+		doNetwork('http://api.myjson.com/bins/2uq38');
+		// document.getElementById('first').innerHTML="Updated By Button " + info;
+		var myTextObjects =  document.getElementsByClassName('myText');
+		console.log(myTextObjects);
+		count=0;
+		var total = myTextObjects.length;
+		for(var i=0;i<total;i++){
+			console.log("Getting object a position " + i);
+			// if (count++ % 2==1){
+				var el = myTextObjects[i];
+			// 	console.log(el);
+			// 	className="green";
+			// 	if (el.classList)
+			// 	  el.classList.add(className);
+			// 	else
+			// 	  el.className += ' ' + className;
+				var clone = el.cloneNode(true);
+		    	clone.innerHTML=el.innerHTML+"CHANGED!!!";
+		    	// document.querySelectorAll('myText')[0];
+		    	document.querySelectorAll('.border')[0].appendChild(clone);
+
+			// }
+		}
+
+
+
+		// var borderObject = document.getElementsByClassName('border');
+		// borderObject.innerHTML =myTextObjects;// = 'change border text';
+
+		// document.getElementsByClassName('myText');
+	};
+
+	// doSomething("ASDASDASD");
+
+	document.getElementById('first').innerHTML="First (Updated By JS)";
+
+
+
+	// alert("I am annoying!")
+</script>
